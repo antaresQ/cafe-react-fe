@@ -1,0 +1,31 @@
+{
+  "name": "cafe-react-fe",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "vite --port=3001",
+    "build": "vite build",
+    "serve": "vite preview",
+    "start": "vite"
+  },
+  "devDependencies": {
+    "@tanstack/router-devtools": "^1.57.18",
+    "@tanstack/router-plugin": "^1.57.15",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.1.0",
+    "@tanstack/react-query": "^5.56.2",
+    "@tanstack/react-router": "^1.57.18",
+    "ag-grid-react": "^32.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
