@@ -20,12 +20,20 @@ function RootComponent() {
           Home
         </Link>{' '}
         <Link
-          to="/about"
+          to="/cafe"
           activeProps={{
             className: 'font-bold',
           }}
         >
-          About
+          Cafe
+        </Link>
+        <Link
+          to="/employees"
+          activeProps={{
+            className: 'font-bold',
+          }}
+        >
+          Employees
         </Link>
       </div>
       <hr />

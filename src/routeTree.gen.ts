@@ -11,10 +11,22 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as EmployeesImport } from './routes/employees'
+import { Route as CafeImport } from './routes/cafe'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const EmployeesRoute = EmployeesImport.update({
+  path: '/employees',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CafeRoute = CafeImport.update({
+  path: '/cafe',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AboutRoute = AboutImport.update({
   path: '/about',
@@ -44,6 +56,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
+    '/cafe': {
+      id: '/cafe'
+      path: '/cafe'
+      fullPath: '/cafe'
+      preLoaderRoute: typeof CafeImport
+      parentRoute: typeof rootRoute
+    }
+    '/employees': {
+      id: '/employees'
+      path: '/employees'
+      fullPath: '/employees'
+      preLoaderRoute: typeof EmployeesImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -52,36 +78,46 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cafe': typeof CafeRoute
+  '/employees': typeof EmployeesRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cafe': typeof CafeRoute
+  '/employees': typeof EmployeesRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/cafe': typeof CafeRoute
+  '/employees': typeof EmployeesRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths: '/' | '/about' | '/cafe' | '/employees'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to: '/' | '/about' | '/cafe' | '/employees'
+  id: '__root__' | '/' | '/about' | '/cafe' | '/employees'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  CafeRoute: typeof CafeRoute
+  EmployeesRoute: typeof EmployeesRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  CafeRoute: CafeRoute,
+  EmployeesRoute: EmployeesRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,7 +133,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about"
+        "/about",
+        "/cafe",
+        "/employees"
       ]
     },
     "/": {
@@ -105,6 +143,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/cafe": {
+      "filePath": "cafe.tsx"
+    },
+    "/employees": {
+      "filePath": "employees.tsx"
     }
   }
 }
