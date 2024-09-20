@@ -11,22 +11,16 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as EmployeesImport } from './routes/employees'
-import { Route as CafeImport } from './routes/cafe'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
+import { Route as EmployeesIndexImport } from './routes/employees/index'
+import { Route as CafesIndexImport } from './routes/cafes/index'
+import { Route as EmployeesAddImport } from './routes/employees/add'
+import { Route as EmployeesUseridImport } from './routes/employees/$userid'
+import { Route as CafesAddImport } from './routes/cafes/add'
+import { Route as CafesCafeidImport } from './routes/cafes/$cafeid'
 
 // Create/Update Routes
-
-const EmployeesRoute = EmployeesImport.update({
-  path: '/employees',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const CafeRoute = CafeImport.update({
-  path: '/cafe',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const AboutRoute = AboutImport.update({
   path: '/about',
@@ -35,6 +29,36 @@ const AboutRoute = AboutImport.update({
 
 const IndexRoute = IndexImport.update({
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeesIndexRoute = EmployeesIndexImport.update({
+  path: '/employees/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CafesIndexRoute = CafesIndexImport.update({
+  path: '/cafes/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeesAddRoute = EmployeesAddImport.update({
+  path: '/employees/add',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const EmployeesUseridRoute = EmployeesUseridImport.update({
+  path: '/employees/$userid',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CafesAddRoute = CafesAddImport.update({
+  path: '/cafes/add',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CafesCafeidRoute = CafesCafeidImport.update({
+  path: '/cafes/$cafeid',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -56,18 +80,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutImport
       parentRoute: typeof rootRoute
     }
-    '/cafe': {
-      id: '/cafe'
-      path: '/cafe'
-      fullPath: '/cafe'
-      preLoaderRoute: typeof CafeImport
+    '/cafes/$cafeid': {
+      id: '/cafes/$cafeid'
+      path: '/cafes/$cafeid'
+      fullPath: '/cafes/$cafeid'
+      preLoaderRoute: typeof CafesCafeidImport
       parentRoute: typeof rootRoute
     }
-    '/employees': {
-      id: '/employees'
+    '/cafes/add': {
+      id: '/cafes/add'
+      path: '/cafes/add'
+      fullPath: '/cafes/add'
+      preLoaderRoute: typeof CafesAddImport
+      parentRoute: typeof rootRoute
+    }
+    '/employees/$userid': {
+      id: '/employees/$userid'
+      path: '/employees/$userid'
+      fullPath: '/employees/$userid'
+      preLoaderRoute: typeof EmployeesUseridImport
+      parentRoute: typeof rootRoute
+    }
+    '/employees/add': {
+      id: '/employees/add'
+      path: '/employees/add'
+      fullPath: '/employees/add'
+      preLoaderRoute: typeof EmployeesAddImport
+      parentRoute: typeof rootRoute
+    }
+    '/cafes/': {
+      id: '/cafes/'
+      path: '/cafes'
+      fullPath: '/cafes'
+      preLoaderRoute: typeof CafesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/employees/': {
+      id: '/employees/'
       path: '/employees'
       fullPath: '/employees'
-      preLoaderRoute: typeof EmployeesImport
+      preLoaderRoute: typeof EmployeesIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -78,46 +130,91 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cafe': typeof CafeRoute
-  '/employees': typeof EmployeesRoute
+  '/cafes/$cafeid': typeof CafesCafeidRoute
+  '/cafes/add': typeof CafesAddRoute
+  '/employees/$userid': typeof EmployeesUseridRoute
+  '/employees/add': typeof EmployeesAddRoute
+  '/cafes': typeof CafesIndexRoute
+  '/employees': typeof EmployeesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cafe': typeof CafeRoute
-  '/employees': typeof EmployeesRoute
+  '/cafes/$cafeid': typeof CafesCafeidRoute
+  '/cafes/add': typeof CafesAddRoute
+  '/employees/$userid': typeof EmployeesUseridRoute
+  '/employees/add': typeof EmployeesAddRoute
+  '/cafes': typeof CafesIndexRoute
+  '/employees': typeof EmployeesIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/cafe': typeof CafeRoute
-  '/employees': typeof EmployeesRoute
+  '/cafes/$cafeid': typeof CafesCafeidRoute
+  '/cafes/add': typeof CafesAddRoute
+  '/employees/$userid': typeof EmployeesUseridRoute
+  '/employees/add': typeof EmployeesAddRoute
+  '/cafes/': typeof CafesIndexRoute
+  '/employees/': typeof EmployeesIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/cafe' | '/employees'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/cafes/$cafeid'
+    | '/cafes/add'
+    | '/employees/$userid'
+    | '/employees/add'
+    | '/cafes'
+    | '/employees'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/cafe' | '/employees'
-  id: '__root__' | '/' | '/about' | '/cafe' | '/employees'
+  to:
+    | '/'
+    | '/about'
+    | '/cafes/$cafeid'
+    | '/cafes/add'
+    | '/employees/$userid'
+    | '/employees/add'
+    | '/cafes'
+    | '/employees'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/cafes/$cafeid'
+    | '/cafes/add'
+    | '/employees/$userid'
+    | '/employees/add'
+    | '/cafes/'
+    | '/employees/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  CafeRoute: typeof CafeRoute
-  EmployeesRoute: typeof EmployeesRoute
+  CafesCafeidRoute: typeof CafesCafeidRoute
+  CafesAddRoute: typeof CafesAddRoute
+  EmployeesUseridRoute: typeof EmployeesUseridRoute
+  EmployeesAddRoute: typeof EmployeesAddRoute
+  CafesIndexRoute: typeof CafesIndexRoute
+  EmployeesIndexRoute: typeof EmployeesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  CafeRoute: CafeRoute,
-  EmployeesRoute: EmployeesRoute,
+  CafesCafeidRoute: CafesCafeidRoute,
+  CafesAddRoute: CafesAddRoute,
+  EmployeesUseridRoute: EmployeesUseridRoute,
+  EmployeesAddRoute: EmployeesAddRoute,
+  CafesIndexRoute: CafesIndexRoute,
+  EmployeesIndexRoute: EmployeesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -134,8 +231,12 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
-        "/cafe",
-        "/employees"
+        "/cafes/$cafeid",
+        "/cafes/add",
+        "/employees/$userid",
+        "/employees/add",
+        "/cafes/",
+        "/employees/"
       ]
     },
     "/": {
@@ -144,11 +245,23 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.tsx"
     },
-    "/cafe": {
-      "filePath": "cafe.tsx"
+    "/cafes/$cafeid": {
+      "filePath": "cafes/$cafeid.tsx"
     },
-    "/employees": {
-      "filePath": "employees.tsx"
+    "/cafes/add": {
+      "filePath": "cafes/add.tsx"
+    },
+    "/employees/$userid": {
+      "filePath": "employees/$userid.tsx"
+    },
+    "/employees/add": {
+      "filePath": "employees/add.tsx"
+    },
+    "/cafes/": {
+      "filePath": "cafes/index.tsx"
+    },
+    "/employees/": {
+      "filePath": "employees/index.tsx"
     }
   }
 }
