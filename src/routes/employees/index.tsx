@@ -1,18 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { getEmployees } from '../../queries/getEmployees'
-import { EmployeeDetailView } from '../../types'
+import { useQuery } from '@tanstack/react-query'
+import { EmployeeDetailView, EmployeeDetailViewColDef } from '../../types'
+import { Col, Input, Space, Table, Tag }from 'antd';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import {AgGridReact} from 'ag-grid-react'
+import 'ag-grid-community/styles/ag-grid.css'
+import 'ag-grid-community/styles/ag-theme-quartz.css'
+import { useMutation } from '@tanstack/react-query';
 
 export const Route = createFileRoute('/employees/')({
   component: Employees,
 })
 
 export default function Employees() {
+
+  const { Column, ColumnGroup } = Table;
 
   const { isPending, error, data, isFetching } = useQuery({
     queryKey: ['GET_EMPLOYEES'],
@@ -40,20 +42,38 @@ export default function Employees() {
 
   return (
     <div>
+      
+      <Input placeholder="Cafe Name or Cafe Id" />
+      <br/>
       {isFetching && <p>Refetching</p>}
+      {/* {
+        <Table dataSource={data}>
+          <Column title="Id" dataIndex="id" key="id" />
+          <Column title="Name" dataIndex="name" key="name" />
+          <Column title="Email Address" dataIndex="email_Address" key="email_Address" />
+          <Column title="Phone Number" dataIndex="phone_Number" key="phone_Number" />
+          <Column title="Gender" dataIndex="gender" key="gender" />
+          <Column title="Cafe" dataIndex="cafe" key="cafe" />
+          <Column title="Days Worked" dataIndex="days_Worked" key="days_Worked" />
+          <Column
+            title="Action"
+            key="action"
+            render={(_, record) => (
+              <Space size="middle">
+                <a>Edit</a>
+                <a>Delete</a>
+              </Space>
+            )}
+          />
+        </Table>
+      } */}
       {
-        data.map((employee: EmployeeDetailView) => {
-              return <div key={employee.id}>
-                      <div>Id: {employee.id}</div>
-                      <div>Name: {employee.name}</div>
-                      <div>Email Address: {employee.email_address}</div>
-                      <div>Phone Number: {employee.phone_number}</div>
-                      <div>Gender: {employee.gender}</div>
-                      <div>Cafe: {employee.cafe}</div>
-                      <div>Days Worked: {employee.days_worked}</div>
-                    </div>
-          }
-        )
+        <div className='ag-theme-quartz' style={{height:500}}>
+          <AgGridReact
+            rowData={data}
+            columnDefs={EmployeeDetailViewColDef}
+          />
+        </div>
       }
     </div>
   )

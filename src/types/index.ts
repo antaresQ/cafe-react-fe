@@ -1,3 +1,4 @@
+import { Hidden } from "@mui/material";
 
 export type Cafe = {
     id: string;
@@ -13,9 +14,9 @@ export type Cafe = {
 export type Employee = {
     id: string;
     name: string;
+    gender: string;
     email_address: string;
     phone_number: number;
-    gender: string;
 }
 
 export interface EmployeeCreateUpdate extends Employee {
@@ -33,7 +34,16 @@ export interface EmployeeDetailView extends EmployeeDetail {
 }
 
 
-
+export const EmployeeDetailViewColDef = [
+    {field: "id"},
+    {field: "name"},
+    {field: "gender"},
+    {field: "email_Address", headerName: "Email Address"},
+    {field: "phone_Number", headerName: "Phone Number"},
+    {field: "cafe"},
+    {field: "days_Worked", headerName: "Days Worked"},
+    {field: "start_Date", headerName: "Start Date", hide: true}
+]
 
 
 export type CafeEmployee = {
