@@ -31,7 +31,7 @@ export default function Employees() {
   })
 
   if(isPending){
-    return <span>loadning...</span>
+    return <span>Loading Employees...</span>
   }
   
   if (error) {
@@ -43,8 +43,7 @@ export default function Employees() {
       {isFetching && <p>Refetching</p>}
       {
         data.map((employee: EmployeeDetailView) => {
-              console.log(employee);
-              return <div>
+              return <div key={employee.id}>
                       <div>Id: {employee.id}</div>
                       <div>Name: {employee.name}</div>
                       <div>Email Address: {employee.email_address}</div>
@@ -58,6 +57,4 @@ export default function Employees() {
       }
     </div>
   )
-
-  //return (<div>Hu Employees Index</div>)
 }
