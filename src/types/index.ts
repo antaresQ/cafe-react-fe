@@ -33,18 +33,9 @@ export interface EmployeeDetailView extends EmployeeDetail {
     days_worked: number;
 }
 
-
-export const EmployeeDetailViewColDef = [
-    {field: "id"},
-    {field: "name"},
-    {field: "gender"},
-    {field: "email_Address", headerName: "Email Address"},
-    {field: "phone_Number", headerName: "Phone Number"},
-    {field: "cafe"},
-    {field: "days_Worked", headerName: "Days Worked"},
-    {field: "start_Date", headerName: "Start Date", hide: true}
-]
-
+export interface EmployeeDetailViewTable extends EmployeeDetailView {
+    action: string;
+}
 
 export type CafeEmployee = {
     id: number;
