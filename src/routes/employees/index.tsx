@@ -1,14 +1,12 @@
 import React from 'react';
 import { createFileRoute, useParams } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
 import { EmployeeDetail, EmployeeDetailView, EmployeeDetailViewTable} from '../../types'
 import { Col, Input, Space, Table, Tag }from 'antd';
-import InfiniteScroll from 'react-infinite-scroll-component'
 import {AgGridReact} from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
-import { useMutation } from '@tanstack/react-query'
-import { actionColumn } from '../../aggridCustom/actionColumn'
+import { employeeActionColumn } from '../../aggridCustom/customColumns'
+import { getEmployees } from '../../queries/employees';
 
 const EmployeeDetailViewColDef = [
   {field: "id"},
@@ -19,33 +17,18 @@ const EmployeeDetailViewColDef = [
   {field: "cafe"},
   {field: "days_Worked", headerName: "Days Worked"},
   {field: "start_Date", headerName: "Start Date", hide: true},
-  {field: 'action', headerName: 'Actions', cellRenderer: actionColumn}
+  {field: 'employees', headerName: 'Employees'},
+  {field: 'action', headerName: 'Actions', cellRenderer: employeeActionColumn}
 ]
 
 export const Route = createFileRoute('/employees/')({
-  component: Employees,
+  component: Employees
 })
 
 
 export default function Employees() {
 
-  const { Column, ColumnGroup } = Table;
-
-  const { isPending, error, data, isFetching } = useQuery({
-    queryKey: ['GET_EMPLOYEES'],
-    queryFn: async () => {
-      const response =  await fetch('/api/v1/employees',
-      {
-        method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json'
-        }
-        //body: JSON.stringify()
-      })
-  
-      return await response.json();
-    }
-  })
+  const { isPending, error, data, isFetching } = getEmployees()
 
   if(isPending){
     return <span>Loading Employees...</span>

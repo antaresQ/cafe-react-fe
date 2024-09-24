@@ -9,9 +9,9 @@ export const Route = createFileRoute('/employees/$employeeid')({
 export default function Employee() {
   const { employeeid } = Route.useParams()
 
-  var isEdit = employeeid.substring(0,2).toLowerCase() === 'ui';
+  var isEmployeeId = employeeid.substring(0, 2).toLowerCase() === 'ui'
 
-  if (isEdit) {
+  if (isEmployeeId) {
     //Form with Values
 
     const { isPending, error, data, isFetching } = useQuery({
@@ -31,20 +31,14 @@ export default function Employee() {
         return await response.json()
       },
     })
-
-  }
-  else {
+  } else {
     //Form empty to add
   }
 
-  
   return (
     <div>
-      <div>{isEdit ? 'Edit' : 'Add'} Employee</div>
-      {
-        isEdit ? <div>UserId: {employeeid}</div> : null
-      }
-      
+      <div>{isEmployeeId ? 'Edit' : 'Add'} Employee</div>
+      {isEmployeeId ? <div>UserId: {employeeid}</div> : null}
     </div>
   )
 }
