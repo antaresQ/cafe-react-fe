@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export function getEmployees(id?:string) {
 
-  let api_url = (id != undefined && id?.length > 0) ? `/api/v1/employees/${id}` : '/api/v1/employees';
+  let api_url = (id != undefined && id?.length > 0) ? `/api/v1/employees?employeeId=${id}` : '/api/v1/employees';
 
   return useQuery({
     queryKey: ['GET_EMPLOYEES'],

@@ -33,19 +33,8 @@ export default function Cafes() {
 
   return (
     <div>
+      Cafes
       {isFetching && <p>Refetching</p>}
-      {/* {
-        data.map((cafe: Cafe) => {
-              return <div key={cafe.id}>
-                      <div>Id: {cafe.id}</div>
-                      <div>Name: {cafe.name}</div>
-                      <div>Descriptiom: {cafe.description}</div>
-                      <div>Logo: {cafe.logo}</div>
-                      <div>Location: {cafe.location}</div>
-                    </div>
-          }
-        )
-      } */}
       {
         <div className='ag-theme-quartz' style={{height:500}}>
           <AgGridReact

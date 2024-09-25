@@ -46,33 +46,10 @@ export default function Employees() {
 
     return (
       <div>
-        
+        Employees
         <Input placeholder="Cafe Name or Cafe Id" />
         <br/>
         {isFetching && <p>Refetching</p>}
-        {
-        /* {
-            <Table dataSource={data}>
-              <Column title="Id" dataIndex="id" key="id" />
-              <Column title="Name" dataIndex="name" key="name" />
-              <Column title="Email Address" dataIndex="email_Address" key="email_Address" />
-              <Column title="Phone Number" dataIndex="phone_Number" key="phone_Number" />
-              <Column title="Gender" dataIndex="gender" key="gender" />
-              <Column title="Cafe" dataIndex="cafe" key="cafe" />
-              <Column title="Days Worked" dataIndex="days_Worked" key="days_Worked" />
-              <Column
-                title="Action"
-                key="action"
-                render={(_, record) => (
-                  <Space size="middle">
-                    <a>Edit</a>
-                    <a>Delete</a>
-                  </Space>
-                )}
-              />
-            </Table>
-          } */
-        }
         {
   
           <div className='ag-theme-quartz' style={{height:500}}>
