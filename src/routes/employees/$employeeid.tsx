@@ -80,6 +80,10 @@ export default function EmployeeEdit() {
     });
   };
 
+  if(employeeQ.data){
+    onFill();
+  }
+
   return (
     <div>
       <div>{isEmployeeId ? 'Edit' : 'Add'} Employee</div>
@@ -118,7 +122,7 @@ export default function EmployeeEdit() {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="Phone Number" label="Phone Number" 
+        <Form.Item name="phoneNumber" label="Phone Number" 
           rules={[
             { required: true },
             { len: 8 }
@@ -134,7 +138,7 @@ export default function EmployeeEdit() {
           >
             {
               cafes.data?.map((cafe:Cafe) => {
-                return parse(`<Option value="${cafe.id}">${cafe.name}</Option>`)
+                return parse(`<Option value="${cafe.id}" key="${cafe.id}">${cafe.name}</Option>`)
               })
             }
           </Select>
@@ -151,12 +155,12 @@ export default function EmployeeEdit() {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
-            <Button htmlType="button" onClick={onReset}>
+            <Button htmlType="button" onClick={employeeQ.data ? onFill : onReset}>
               Reset
             </Button>
-            <Button type="link" htmlType="button" onClick={onFill}>
+            {/* <Button type="link" htmlType="button" onClick={onFill}>
               Fill form
-            </Button> 
+            </Button>  */}
           </Space>
         </Form.Item>
       </Form>
