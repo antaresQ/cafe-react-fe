@@ -15,7 +15,6 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as EmployeesIndexImport } from './routes/employees/index'
 import { Route as CafesIndexImport } from './routes/cafes/index'
-import { Route as EmployeesAddImport } from './routes/employees/add'
 import { Route as EmployeesEmployeeidImport } from './routes/employees/$employeeid'
 import { Route as CafesAddImport } from './routes/cafes/add'
 import { Route as CafesCafeidImport } from './routes/cafes/$cafeid'
@@ -39,11 +38,6 @@ const EmployeesIndexRoute = EmployeesIndexImport.update({
 
 const CafesIndexRoute = CafesIndexImport.update({
   path: '/cafes/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const EmployeesAddRoute = EmployeesAddImport.update({
-  path: '/employees/add',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -101,13 +95,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmployeesEmployeeidImport
       parentRoute: typeof rootRoute
     }
-    '/employees/add': {
-      id: '/employees/add'
-      path: '/employees/add'
-      fullPath: '/employees/add'
-      preLoaderRoute: typeof EmployeesAddImport
-      parentRoute: typeof rootRoute
-    }
     '/cafes/': {
       id: '/cafes/'
       path: '/cafes'
@@ -133,7 +120,6 @@ export interface FileRoutesByFullPath {
   '/cafes/$cafeid': typeof CafesCafeidRoute
   '/cafes/add': typeof CafesAddRoute
   '/employees/$employeeid': typeof EmployeesEmployeeidRoute
-  '/employees/add': typeof EmployeesAddRoute
   '/cafes': typeof CafesIndexRoute
   '/employees': typeof EmployeesIndexRoute
 }
@@ -144,7 +130,6 @@ export interface FileRoutesByTo {
   '/cafes/$cafeid': typeof CafesCafeidRoute
   '/cafes/add': typeof CafesAddRoute
   '/employees/$employeeid': typeof EmployeesEmployeeidRoute
-  '/employees/add': typeof EmployeesAddRoute
   '/cafes': typeof CafesIndexRoute
   '/employees': typeof EmployeesIndexRoute
 }
@@ -156,7 +141,6 @@ export interface FileRoutesById {
   '/cafes/$cafeid': typeof CafesCafeidRoute
   '/cafes/add': typeof CafesAddRoute
   '/employees/$employeeid': typeof EmployeesEmployeeidRoute
-  '/employees/add': typeof EmployeesAddRoute
   '/cafes/': typeof CafesIndexRoute
   '/employees/': typeof EmployeesIndexRoute
 }
@@ -169,7 +153,6 @@ export interface FileRouteTypes {
     | '/cafes/$cafeid'
     | '/cafes/add'
     | '/employees/$employeeid'
-    | '/employees/add'
     | '/cafes'
     | '/employees'
   fileRoutesByTo: FileRoutesByTo
@@ -179,7 +162,6 @@ export interface FileRouteTypes {
     | '/cafes/$cafeid'
     | '/cafes/add'
     | '/employees/$employeeid'
-    | '/employees/add'
     | '/cafes'
     | '/employees'
   id:
@@ -189,7 +171,6 @@ export interface FileRouteTypes {
     | '/cafes/$cafeid'
     | '/cafes/add'
     | '/employees/$employeeid'
-    | '/employees/add'
     | '/cafes/'
     | '/employees/'
   fileRoutesById: FileRoutesById
@@ -201,7 +182,6 @@ export interface RootRouteChildren {
   CafesCafeidRoute: typeof CafesCafeidRoute
   CafesAddRoute: typeof CafesAddRoute
   EmployeesEmployeeidRoute: typeof EmployeesEmployeeidRoute
-  EmployeesAddRoute: typeof EmployeesAddRoute
   CafesIndexRoute: typeof CafesIndexRoute
   EmployeesIndexRoute: typeof EmployeesIndexRoute
 }
@@ -212,7 +192,6 @@ const rootRouteChildren: RootRouteChildren = {
   CafesCafeidRoute: CafesCafeidRoute,
   CafesAddRoute: CafesAddRoute,
   EmployeesEmployeeidRoute: EmployeesEmployeeidRoute,
-  EmployeesAddRoute: EmployeesAddRoute,
   CafesIndexRoute: CafesIndexRoute,
   EmployeesIndexRoute: EmployeesIndexRoute,
 }
@@ -234,7 +213,6 @@ export const routeTree = rootRoute
         "/cafes/$cafeid",
         "/cafes/add",
         "/employees/$employeeid",
-        "/employees/add",
         "/cafes/",
         "/employees/"
       ]
@@ -253,9 +231,6 @@ export const routeTree = rootRoute
     },
     "/employees/$employeeid": {
       "filePath": "employees/$employeeid.tsx"
-    },
-    "/employees/add": {
-      "filePath": "employees/add.tsx"
     },
     "/cafes/": {
       "filePath": "cafes/index.tsx"

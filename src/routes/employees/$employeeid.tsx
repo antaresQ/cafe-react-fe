@@ -31,35 +31,23 @@ export default function EmployeeEdit() {
   const { employeeid } = Route.useParams()
 
   const cafes = getCafes();
-
+  
   var isEmployeeId = employeeid.substring(0, 2).toLowerCase() === 'ui'
 
-  if (!isEmployeeId) {
-    //Form with Values
-
-    
-  }
+  const [form] = Form.useForm();
 
   const employeeQ = getEmployees(employeeid);
 
-  const [form] = Form.useForm();
-  // const onGenderChange = (value: string) => {
-  //   switch (value) {
-  //     case 'male':
-  //       form.setFieldsValue({
-  //         note: 'Hi, man!',
-  //       });
-  //       break;
-  //     case 'female':
-  //       form.setFieldsValue({
-  //         note: 'Hi, lady!',
-  //       });
-  //       break;
-  //     default:
-  //   }
-  // };
-
-  
+  const onFill = () => {
+    form.setFieldsValue({
+      name: employeeQ.data.name,
+      gender: employeeQ.data.gender,
+      emailAddress: employeeQ.data.email_Address,
+      phoneNumber: employeeQ.data.phone_Number,
+      cafe: employeeQ.data.cafe,
+      startDate: dayjs(employeeQ.data.start_Date?.slice(0,10))
+    });
+  };
 
   const onFinish = (values: string) => {
     console.log(values);
@@ -69,16 +57,6 @@ export default function EmployeeEdit() {
     form.resetFields();
   };
 
-  const onFill = () => {
-    form.setFieldsValue({
-      name: employeeQ.data.name,
-      gender: employeeQ.data.gender,
-      emailAddress: employeeQ.data.email_Address,
-      phoneNumber: employeeQ.data.phone_Number,
-      cafe: employeeQ.data.cafe,
-      startDate: dayjs(employeeQ.data.start_Date.slice(0,10))
-    });
-  };
 
   if(employeeQ.data){
     onFill();
