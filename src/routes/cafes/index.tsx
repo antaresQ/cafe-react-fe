@@ -11,6 +11,7 @@ const CafeDetailColDef = [
   {field: "name"},
   {field: "description"},
   {field: "location"},
+  {field: 'employees', headerName: 'Employees'},
   {field: 'id', headerName: "Action", cellRenderer: cafeActionColumn}
 ]
 

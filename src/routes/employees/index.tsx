@@ -17,7 +17,6 @@ const EmployeeDetailViewColDef = [
   {field: "cafe"},
   {field: "days_Worked", headerName: "Days Worked"},
   {field: "start_Date", headerName: "Start Date", hide: true},
-  {field: 'employees', headerName: 'Employees'},
   {field: 'action', headerName: 'Actions', cellRenderer: employeeActionColumn}
 ]
 
