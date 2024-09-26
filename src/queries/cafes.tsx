@@ -1,4 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Cafe } from "../types";
 
 export function getCafes(location?: string) {
     
@@ -37,5 +38,31 @@ export function getCafe(cafe_id: string) {
 
       return await response.json();
     }
+  })
+}
+
+export function useCafeData() {
+  return useMutation({
+    mutationKey: ['MUTATE_CAFE'],
+    mutationFn: async (cafe:Cafe) => {
+      //event.preventDefault();
+      const response = await fetch('/api/v1/cafe', 
+      {
+        method: cafe.id ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(cafe)
+      })
+      
+      return await response.json()
+    },
+    onSuccess(data, variables, context) {
+        
+    },
+    onError(error, variables, context) {
+        console.log('Fetch PUT failed:')
+        console.log(error);
+    },
   })
 }

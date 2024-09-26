@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { Button, DatePicker, Form, Input, Select, Space } from 'antd'
-import { getCafe } from '../../queries/cafes'
+import { Button, DatePicker, Form, Input, Select, Space, Upload } from 'antd'
+import { getCafe, useCafeData } from '../../queries/cafes'
 import toast, { Toaster } from 'react-hot-toast'
 import { Cafe } from '../../types'
 import * as uuid from 'uuid'
@@ -31,8 +31,9 @@ export default function UpdateCafe() {
   const { cafeid } = Route.useParams()
   const [form] = Form.useForm()
   const navigate = useNavigate();
+  const {mutate:upsertCafe, isError:isUpsertError, error:upsertError } = useCafeData();
   
-  var isValidUUID = uuid.validate(cafeid)
+  var isValidCafeUUID = uuid.validate(cafeid)
 
   const cafeQ = getCafe(cafeid);
   
@@ -45,21 +46,21 @@ export default function UpdateCafe() {
     })
   }
 
-  const returnToCafesPage = () =>{
+  const toCafesPage = () =>{
     return navigate({to:'/cafes'});
   }
 
   const onFinish = (values: Cafe) => {
-    // console.log(values)
+    console.log(values)
 
-    // if(isUpsertError){
-    //   return toast.error(upsertError.message)
-    // }
-    // else {
-    //   toast.success(isEmployeeId ? `Employee Updated: ${cafeQ.data.name}` : 'Employee Added')
-    // }
+    if(isUpsertError){
+      return toast.error(upsertError.message)
+    }
+    else {
+      toast.success(isValidCafeUUID ? `Cafe Updated: ${cafeQ.data.name}` : 'Cafe Added')
+    }
 
-    // return navigate({to:'/employees'});
+    return toCafesPage();
   }
 
   const onReset = () => {
@@ -68,21 +69,18 @@ export default function UpdateCafe() {
 
   const onSubmit = async () => {
 
-    // await form.validateFields()
-    //   .catch((err) => {
-    //     let errors = form.getFieldsError().filter(e => e.errors.length > 0)
-    //     return console.log(errors);
-    //   })
+    await form.validateFields()
+      .catch((err) => {
+        let errors = form.getFieldsError().filter(e => e.errors.length > 0)
+        return console.log(errors);
+      })
     
-    // let employeeData = form.getFieldsValue();
-    // if(isEmployeeId && cafeQ.data.id.toLowerCase() == employeeid.toLowerCase()){
-    //   employeeData.id = employeeid.toUpperCase();
-    // }
-
-    // employeeData.phone_Number = parseInt(employeeData.phone_Number);
-    // employeeData.start_Date = new Date(employeeData.start_Date).toISOString()
+    let cafeData = form.getFieldsValue();
+    if(isValidCafeUUID && cafeQ.data.id.toLowerCase() == cafeid.toLowerCase()){
+      cafeData.id = cafeid.toUpperCase();
+    }
     
-    // await upsertEmployee(employeeData);
+    await upsertCafe(cafeData);
 
   }
 
@@ -92,8 +90,8 @@ export default function UpdateCafe() {
 
   return (
     <div>
-      <div>{isValidUUID ? 'Edit' : 'Add'} Employee</div>
-      {isValidUUID ? <div>Cafe Id: {cafeid}</div> : null}
+      <div>{isValidCafeUUID ? 'Edit' : 'Add'} Cafe</div>
+      {isValidCafeUUID ? <div>Cafe Id: {cafeid}</div> : null}
       <Form
         {...layout}
         form={form}
@@ -119,7 +117,7 @@ export default function UpdateCafe() {
         <Form.Item
           name="logo"
           label="Logo"
-          rules={[{ required: true }, { len: 8 }]}
+          rules={[{ required: false }]}
         >
           <Input />
         </Form.Item>
@@ -143,7 +141,7 @@ export default function UpdateCafe() {
             >
               Reset
             </Button>
-            <Button type="primary" htmlType="button" onClick={returnToCafesPage} danger>
+            <Button type="primary" htmlType="button" onClick={toCafesPage} danger>
               Cancel
             </Button> 
           </Space>

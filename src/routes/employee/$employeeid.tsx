@@ -50,6 +50,12 @@ export default function EmployeeEdit() {
     })
   }
 
+  const toEmployeesPage = () =>{
+
+    return navigate({to:'/employees'});
+
+  }
+
   const onFinish = (values: EmployeeCreateUpdate) => {
     console.log(values)
 
@@ -60,7 +66,7 @@ export default function EmployeeEdit() {
       toast.success(isEmployeeId ? `Employee Updated: ${employeeQ.data.name}` : 'Employee Added')
     }
 
-    return navigate({to:'/employees'});
+    return toEmployeesPage();
   }
 
   const onReset = () => {
@@ -166,9 +172,9 @@ export default function EmployeeEdit() {
             >
               Reset
             </Button>
-            {/* <Button type="link" htmlType="button" onClick={onFill}>
-              Fill form
-            </Button>  */}
+            <Button type="primary" htmlType="button" onClick={toEmployeesPage} danger>
+              Cancel
+            </Button>
           </Space>
         </Form.Item>
       </Form>

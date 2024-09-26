@@ -42,7 +42,7 @@ export function getEmployee(id?:string) {
 
 export function useEmployeeData(){
   return useMutation({
-    mutationKey: ['ADD_EMPLOYEE'],
+    mutationKey: ['MUTATE_EMPLOYEE'],
     mutationFn: async (employee:EmployeeCreateUpdate) => {
       //event.preventDefault();
       const response = await fetch('/api/v1/employee', 
