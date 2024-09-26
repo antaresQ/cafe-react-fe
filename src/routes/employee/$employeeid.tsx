@@ -35,7 +35,7 @@ export default function EmployeeEdit() {
   const [form] = Form.useForm()
   
   const cafes = getCafes()
-  const employeeQ = getEmployee(employeeid)
+  const employeeQ = isEmployeeId ? getEmployee(employeeid) : getEmployee()
   const { mutate:upsertEmployee, isError:isUpsertError, error:upsertError } = useEmployeeData();
   const navigate = useNavigate()
 

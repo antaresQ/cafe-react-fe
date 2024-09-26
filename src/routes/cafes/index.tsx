@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router'
-import { Cafe } from '../../types';
+import { Cafe, CafeEmployee } from '../../types';
 import { getCafes } from '../../queries/cafes';
 import { cafeActionColumn, cafeEmployeesColumn } from '../../aggridCustom/customColumns';
 import { AgGridReact } from 'ag-grid-react';
@@ -11,7 +11,7 @@ const CafeDetailColDef = [
   {field: "name"},
   {field: "description"},
   {field: "location"},
-  {field: 'employees', headerName: 'Employees'},
+  {field: 'id', headerName: 'Employees', cellRenderer:cafeEmployeesColumn},
   {field: 'id', headerName: "Action", cellRenderer: cafeActionColumn}
 ]
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {useNavigate} from '@tanstack/react-router'
+import {Button} from 'antd'
 
 export const employeeActionColumn = (apiData:any) => {
   const navigate = useNavigate({from: '/employees'})
@@ -7,8 +8,8 @@ export const employeeActionColumn = (apiData:any) => {
   let employeeId = apiData.value;
   return (
     <div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"  onClick={() => navigate({to:`/employee/${employeeId}`})}> Edit  </button> 
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4" data-action="delete" > Delete </button>
+      <Button type='primary' onClick={() => navigate({to:`/employee/${employeeId}`})}> Edit  </Button> 
+      <Button type='primary' data-action="delete" danger> Delete </Button>
     </div>
   )
 }
@@ -19,7 +20,7 @@ export const cafeEmployeesColumn = (apiData:any) => {
   let cafeId = apiData.value;
   return (
     <div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"  onClick={() => navigate({to:`/employees?cafe=${cafeId}`})}> Employees  </button>
+      <Button onClick={() => navigate({to:`/employees?cafe=${cafeId}`})}> Employees  </Button>
     </div>
   )
 }
@@ -27,11 +28,11 @@ export const cafeEmployeesColumn = (apiData:any) => {
 export const cafeActionColumn = (apiData:any) => {
   const navigate = useNavigate({from: '/cafes'})
 
-  let employeeId = apiData.value;
+  let cafe_Id = apiData.value;
   return (
     <div>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"  onClick={() => navigate({to:`/cafes/${employeeId}`})}> Edit  </button>
-      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4" data-action="delete" > Delete </button>
+      <Button type='primary' onClick={() => navigate({to:`/cafe/${cafe_Id}`})}> Edit  </Button>
+      <Button type='primary' data-action="delete" danger> Delete </Button>
     </div>
   )
 }

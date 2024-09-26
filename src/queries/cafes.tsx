@@ -19,3 +19,23 @@ export function getCafes(location?: string) {
     }
   })
 }
+
+export function getCafe(cafe_id: string) {
+    
+  let api_url = `/api/v1/cafe?cafe_id=${cafe_id}`;
+
+  return useQuery({
+    queryKey: ['GET_Cafe'],
+    queryFn: async () => {
+      const response =  await fetch(api_url,
+      {
+        method: 'GET',
+        headers: { 
+          'Content-Type': 'application/json'
+        }
+      })
+
+      return await response.json();
+    }
+  })
+}
