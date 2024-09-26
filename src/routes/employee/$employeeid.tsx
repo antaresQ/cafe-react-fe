@@ -1,11 +1,12 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
 import { Button, DatePicker, Form, Input, Select, Space } from 'antd'
-import { addEmployee, getEmployee } from '../../queries/employees'
+import { useEmployeeData, getEmployee } from '../../queries/employees'
 import { getCafes } from '../../queries/cafes'
-import { Cafe, Employee, EmployeeDetailView } from '../../types'
+import { Cafe, Employee, EmployeeCreateUpdate, EmployeeDetail } from '../../types'
 import parse from 'html-react-parser'
 import dayjs from 'dayjs'
+import toast, {Toaster, ToastOptions} from 'react-hot-toast'
+import { duration } from '@mui/material'
 
 const { Option } = Select
 const layout = {
@@ -28,15 +29,15 @@ export const Route = createFileRoute('/employee/$employeeid')({
 })
 
 export default function EmployeeEdit() {
+
   const { employeeid } = Route.useParams()
-
-  const cafes = getCafes()
-
   const isEmployeeId = employeeid.substring(0, 2).toLowerCase() === 'ui'
-
   const [form] = Form.useForm()
-
+  
+  const cafes = getCafes()
   const employeeQ = getEmployee(employeeid)
+  const { mutate:upsertEmployee, isError:isUpsertError, error:upsertError } = useEmployeeData();
+  const navigate = useNavigate()
 
   const onFill = () => {
     form.setFieldsValue({
@@ -44,14 +45,22 @@ export default function EmployeeEdit() {
       gender: employeeQ.data.gender,
       email_Address: employeeQ.data.email_Address,
       phone_Number: employeeQ.data.phone_Number,
-      cafe: cafes.data.filter((cafe:Cafe) => cafe.name == employeeQ.data.cafe)[0].id,
+      cafe_Id: cafes.data.filter((cafe:Cafe) => cafe.name == employeeQ.data.cafe)[0].id,
       start_Date: dayjs(employeeQ.data.start_Date?.slice(0, 10)),
     })
   }
 
-  const onFinish = (values: string) => {
+  const onFinish = (values: EmployeeCreateUpdate) => {
     console.log(values)
-    return redirect({to:'/employees'})
+
+    if(isUpsertError){
+      return toast.error(upsertError.message)
+    }
+    else {
+      toast.success(isEmployeeId ? `Employee Updated: ${employeeQ.data.name}` : 'Employee Added')
+    }
+
+    return navigate({to:'/employees'});
   }
 
   const onReset = () => {
@@ -60,32 +69,21 @@ export default function EmployeeEdit() {
 
   const onSubmit = async () => {
 
-    form.validateFields()
-      .then(async(outcome) => {
-        let errors = form.getFieldsError().filter(e => e.errors.length > 0)
-        if (errors.length === 0) 
-        {
-          let employeeData = form.getFieldsValue();
-          if(isEmployeeId && employeeQ.data.id.toLowerCase() == employeeid.toLowerCase()){
-            employeeData.id = employeeid.toUpperCase();
-          }
-          employeeData.start_Date = new Date(employeeData.start_Date).toISOString()
-          console.log(employeeData);
-          const addEmpMut = await addEmployee(employeeData);
-
-          if(addEmpMut.error){
-            console.log(addEmpMut.error);
-          }
-
-          if(addEmpMut.data) {
-            return redirect({to:'/employees'});
-          }
-        };
-      })
+    await form.validateFields()
       .catch((err) => {
         let errors = form.getFieldsError().filter(e => e.errors.length > 0)
-        console.log(errors);
+        return console.log(errors);
       })
+    
+    let employeeData = form.getFieldsValue();
+    if(isEmployeeId && employeeQ.data.id.toLowerCase() == employeeid.toLowerCase()){
+      employeeData.id = employeeid.toUpperCase();
+    }
+
+    employeeData.phone_Number = parseInt(employeeData.phone_Number);
+    employeeData.start_Date = new Date(employeeData.start_Date).toISOString()
+    
+    await upsertEmployee(employeeData);
 
   }
 
@@ -135,7 +133,7 @@ export default function EmployeeEdit() {
         >
           <Input />
         </Form.Item>
-        <Form.Item name="cafe" label="Cafe" rules={[{ required: true }]}>
+        <Form.Item name="cafe_Id" label="Cafe" rules={[{ required: true }]}>
           <Select
             placeholder="Select a option and change input text above"
             //onChange={onCafeChange}

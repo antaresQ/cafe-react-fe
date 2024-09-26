@@ -3,7 +3,7 @@ import { EmployeeCreateUpdate } from "../types";
 
 export function getEmployees(cafe?:string) {
 
-  let api_url = (cafe == undefined || cafe == null) ? '/api/v1/employees' : `/api/v1/employees?cafe=${cafe}`; 
+  let api_url = (cafe == undefined || cafe == null) ? '/api/v1/employees' : `/api/v1/employees?cafe=${cafe}`
 
   return useQuery({
     queryKey: ['GET_EMPLOYEES'],
@@ -40,22 +40,29 @@ export function getEmployee(id?:string) {
   })
 }
 
-export function addEmployee(employee:EmployeeCreateUpdate){
+export function useEmployeeData(){
   return useMutation({
     mutationKey: ['ADD_EMPLOYEE'],
-    mutationFn: async (event:Event) => {
+    mutationFn: async (employee:EmployeeCreateUpdate) => {
       //event.preventDefault();
       const response = await fetch('/api/v1/employee', 
       {
-        method: 'POST',
-        headers: { 
+        method: employee.id ? 'PUT' : 'POST',
+        headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(employee)
       })
-
+      
       return await response.json()
-    }
+    },
+    onSuccess(data, variables, context) {
+        
+    },
+    onError(error, variables, context) {
+        console.log('Fetch PUT failed:')
+        console.log(error);
+    },
   })
   
 }
