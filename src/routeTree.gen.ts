@@ -13,9 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
-import { Route as CafesIndexImport } from './routes/cafes/index'
 import { Route as EmployeesCafeIdImport } from './routes/employees/$cafeId'
 import { Route as EmployeeEmployeeidImport } from './routes/employee/$employeeid'
+import { Route as CafesLocationImport } from './routes/cafes/$location'
 import { Route as CafeCafeidImport } from './routes/cafe/$cafeid'
 
 // Create/Update Routes
@@ -30,11 +30,6 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CafesIndexRoute = CafesIndexImport.update({
-  path: '/cafes/',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const EmployeesCafeIdRoute = EmployeesCafeIdImport.update({
   path: '/employees/$cafeId',
   getParentRoute: () => rootRoute,
@@ -42,6 +37,11 @@ const EmployeesCafeIdRoute = EmployeesCafeIdImport.update({
 
 const EmployeeEmployeeidRoute = EmployeeEmployeeidImport.update({
   path: '/employee/$employeeid',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CafesLocationRoute = CafesLocationImport.update({
+  path: '/cafes/$location',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -75,6 +75,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CafeCafeidImport
       parentRoute: typeof rootRoute
     }
+    '/cafes/$location': {
+      id: '/cafes/$location'
+      path: '/cafes/$location'
+      fullPath: '/cafes/$location'
+      preLoaderRoute: typeof CafesLocationImport
+      parentRoute: typeof rootRoute
+    }
     '/employee/$employeeid': {
       id: '/employee/$employeeid'
       path: '/employee/$employeeid'
@@ -89,13 +96,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmployeesCafeIdImport
       parentRoute: typeof rootRoute
     }
-    '/cafes/': {
-      id: '/cafes/'
-      path: '/cafes'
-      fullPath: '/cafes'
-      preLoaderRoute: typeof CafesIndexImport
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
@@ -105,18 +105,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cafe/$cafeid': typeof CafeCafeidRoute
+  '/cafes/$location': typeof CafesLocationRoute
   '/employee/$employeeid': typeof EmployeeEmployeeidRoute
   '/employees/$cafeId': typeof EmployeesCafeIdRoute
-  '/cafes': typeof CafesIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cafe/$cafeid': typeof CafeCafeidRoute
+  '/cafes/$location': typeof CafesLocationRoute
   '/employee/$employeeid': typeof EmployeeEmployeeidRoute
   '/employees/$cafeId': typeof EmployeesCafeIdRoute
-  '/cafes': typeof CafesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -124,9 +124,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/cafe/$cafeid': typeof CafeCafeidRoute
+  '/cafes/$location': typeof CafesLocationRoute
   '/employee/$employeeid': typeof EmployeeEmployeeidRoute
   '/employees/$cafeId': typeof EmployeesCafeIdRoute
-  '/cafes/': typeof CafesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -135,25 +135,25 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/cafe/$cafeid'
+    | '/cafes/$location'
     | '/employee/$employeeid'
     | '/employees/$cafeId'
-    | '/cafes'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/cafe/$cafeid'
+    | '/cafes/$location'
     | '/employee/$employeeid'
     | '/employees/$cafeId'
-    | '/cafes'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/cafe/$cafeid'
+    | '/cafes/$location'
     | '/employee/$employeeid'
     | '/employees/$cafeId'
-    | '/cafes/'
   fileRoutesById: FileRoutesById
 }
 
@@ -161,18 +161,18 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CafeCafeidRoute: typeof CafeCafeidRoute
+  CafesLocationRoute: typeof CafesLocationRoute
   EmployeeEmployeeidRoute: typeof EmployeeEmployeeidRoute
   EmployeesCafeIdRoute: typeof EmployeesCafeIdRoute
-  CafesIndexRoute: typeof CafesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CafeCafeidRoute: CafeCafeidRoute,
+  CafesLocationRoute: CafesLocationRoute,
   EmployeeEmployeeidRoute: EmployeeEmployeeidRoute,
   EmployeesCafeIdRoute: EmployeesCafeIdRoute,
-  CafesIndexRoute: CafesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -190,9 +190,9 @@ export const routeTree = rootRoute
         "/",
         "/about",
         "/cafe/$cafeid",
+        "/cafes/$location",
         "/employee/$employeeid",
-        "/employees/$cafeId",
-        "/cafes/"
+        "/employees/$cafeId"
       ]
     },
     "/": {
@@ -204,14 +204,14 @@ export const routeTree = rootRoute
     "/cafe/$cafeid": {
       "filePath": "cafe/$cafeid.tsx"
     },
+    "/cafes/$location": {
+      "filePath": "cafes/$location.tsx"
+    },
     "/employee/$employeeid": {
       "filePath": "employee/$employeeid.tsx"
     },
     "/employees/$cafeId": {
       "filePath": "employees/$cafeId.tsx"
-    },
-    "/cafes/": {
-      "filePath": "cafes/index.tsx"
     }
   }
 }

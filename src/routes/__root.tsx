@@ -21,7 +21,8 @@ function RootComponent() {
           Home
         </Link>{' '}
         <Link
-          to="/cafes"
+          to="/cafes/$location"
+          params={{location: 'null'}}
           activeProps={{
             className: 'font-bold',
           }}

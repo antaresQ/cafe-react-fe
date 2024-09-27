@@ -47,7 +47,7 @@ export default function UpdateCafe() {
   }
 
   const toCafesPage = () =>{
-    return navigate({to:'/cafes'});
+    return navigate({to:'/cafes/$location', params:{location: 'null'}});
   }
 
   const onFinish = (values: Cafe) => {

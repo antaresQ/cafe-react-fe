@@ -3,10 +3,10 @@ import { Cafe } from "../types";
 
 export function getCafes(location?: string) {
     
-  let api_url = (location != undefined && location?.length > 0) ? `/api/v1/cafes?location=${location}` : '/api/v1/cafes';
+  let api_url = (location == undefined || location == null || location === 'null')  ? '/api/v1/cafes' : `/api/v1/cafes?location=${location}`;
 
   return useQuery({
-    queryKey: ['GET_Cafes'],
+    queryKey: ['GET_Cafes', location],
     queryFn: async () => {
       const response =  await fetch(api_url,
       {

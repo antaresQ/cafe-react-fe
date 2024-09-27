@@ -6,8 +6,9 @@ import {CloseOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
-import { employeeActionColumn } from '../../aggridCustom/customColumns'
+import { employeesActionColumn } from '../../aggridCustom/customColumns'
 import { getEmployees } from '../../queries/employees'
+import { width } from '@mui/system'
 
 const EmployeeDetailViewColDef = [
   { field: 'id' },
@@ -21,7 +22,8 @@ const EmployeeDetailViewColDef = [
   {
     field: 'action',
     headerName: 'Actions',
-    cellRenderer: employeeActionColumn,
+    cellRenderer: employeesActionColumn,
+    width: 250
   },
 ]
 
@@ -30,13 +32,9 @@ export const Route = createFileRoute('/employees/$cafeId')({
 })
 
 export default function EmployeesCafeComponent() {
-  // const { isPending, error, employees, isFetching } = cafe
-  //   ? getEmployees(cafe)
-  //   : getEmployees()
 
   const {cafeId} = Route.useParams()
   const navigate = useNavigate({from: '/'})
-  const nullCafe = 'null';
 
   const { isPending, error, data: employees, isFetching } = getEmployees(cafeId)
 
