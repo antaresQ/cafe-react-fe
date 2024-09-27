@@ -7,8 +7,10 @@ import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
 import { employeesActionColumn } from '../../aggridCustom/customColumns'
-import { getEmployees } from '../../queries/employees'
+import { getEmployees, useEmployeeData } from '../../queries/employees'
 import { width } from '@mui/system'
+import toast from 'react-hot-toast'
+import {EmployeeCreateUpdate} from '../../types/index'
 
 const EmployeeDetailViewColDef = [
   { field: 'id' },
@@ -31,6 +33,34 @@ export const Route = createFileRoute('/employees/$cafeId')({
   component: EmployeesCafeComponent
 })
 
+export function toAllEmployeesPage() {
+  const navigate = useNavigate({from: '/'})
+  return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
+}
+
+// export async function onDeleteEmployee(employeeId:string){
+
+//   const {mutate:deleteEmployee, isError:isDeleteError, error:deleteError }  = useEmployeeData()
+
+//   const employee:EmployeeCreateUpdate = {id: employeeId, name: '', cafe_id: '', gender: '', email_address: '', phone_number: 0}
+
+//   await deleteEmployee(employee)
+  
+//   if (isDeleteError)
+//   {
+//     toast.error(`Error Deleting EmployeeId: ${employeeId}`)
+//     console.log(deleteError?.message)
+//   }
+//   else
+//   {
+//     toast.success(`Successfully Deleted EmployeeId: ${employeeId}`)
+//   }
+  
+//   if (!isDeleteError) {
+//     return toAllEmployeesPage()
+//   }
+// }
+
 export default function EmployeesCafeComponent() {
 
   const {cafeId} = Route.useParams()
@@ -40,10 +70,6 @@ export default function EmployeesCafeComponent() {
 
   const toAddEmployeePage = () =>{
     return navigate({to:'/employee/$employeeid', params:{employeeid: 'null'}});
-  }
-
-  const toAllEmployeesPage = () =>{
-    return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
   }
 
   if (isPending) {

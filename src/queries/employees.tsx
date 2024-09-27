@@ -48,9 +48,15 @@ export function useEmployeeData(){
     mutationKey: ['MUTATE_EMPLOYEE'],
     mutationFn: async (employee:EmployeeCreateUpdate) => {
       //event.preventDefault();
-      const response = await fetch('/api/v1/employee', 
+
+      let url = '/api/v1/employee'
+      if (employee.name.length < 6 ) {url += `?employeId=${employee.id}`}
+
+      let http_method = employee.id.length == 0 ? 'POST' : employee.name.length < 6 ? 'PUT' : 'DELETE'
+
+      const response = await fetch(url, 
       {
-        method: employee.id ? 'PUT' : 'POST',
+        method: http_method,
         headers: {
           'Content-Type': 'application/json'
         },

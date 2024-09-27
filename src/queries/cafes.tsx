@@ -46,9 +46,14 @@ export function useCafeData() {
     mutationKey: ['MUTATE_CAFE'],
     mutationFn: async (cafe:Cafe) => {
       //event.preventDefault();
+
+      let url = '/api/v1/cafe'
+      if(cafe.name.length < 6) {url += `?cafeId=${cafe.id}`}
+      let http_method = cafe.name.length < 6 ? 'DELETE' : cafe.id ? 'PUT' : 'POST';
+
       const response = await fetch('/api/v1/cafe', 
       {
-        method: cafe.id ? 'PUT' : 'POST',
+        method: http_method,
         headers: {
           'Content-Type': 'application/json'
         },
