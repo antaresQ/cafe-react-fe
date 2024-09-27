@@ -29,7 +29,8 @@ function RootComponent() {
           Cafe
         </Link>
         <Link
-          to="/employees"
+          to="/employees/$cafeId"
+          params={{cafeId: 'null'}}
           activeProps={{
             className: 'font-bold',
           }}

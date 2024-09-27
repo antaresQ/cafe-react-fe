@@ -3,7 +3,7 @@ import {useNavigate} from '@tanstack/react-router'
 import {Button} from 'antd'
 
 export const employeeActionColumn = (apiData:any) => {
-  const navigate = useNavigate({from: '/employees'})
+  const navigate = useNavigate({from: '/employees/$cafeId'})
 
   let employeeId = apiData.value;
   return (

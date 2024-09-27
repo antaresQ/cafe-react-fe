@@ -1,12 +1,15 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { EmployeeCreateUpdate } from "../types";
+import { useState } from "react";
+
+const queryClient = new QueryClient({defaultOptions: {queries: {staleTime: 0}}});
 
 export function getEmployees(cafe?:string) {
 
-  let api_url = (cafe == undefined || cafe == null) ? '/api/v1/employees' : `/api/v1/employees?cafe=${cafe}`
+  let api_url = (cafe == undefined || cafe == null || cafe === 'null') ? '/api/v1/employees' : `/api/v1/employees?cafe=${cafe}`
 
   return useQuery({
-    queryKey: ['GET_EMPLOYEES'],
+    queryKey: ['GET_EMPLOYEES', cafe],
     queryFn: async () => {
       const response =  await fetch(api_url,
       {

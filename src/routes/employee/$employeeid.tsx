@@ -52,7 +52,7 @@ export default function EmployeeEdit() {
 
   const toEmployeesPage = () =>{
 
-    return navigate({to:'/employees'});
+    return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
 
   }
 

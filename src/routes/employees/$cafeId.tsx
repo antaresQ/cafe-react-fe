@@ -1,11 +1,8 @@
-import React from 'react'
-import { createFileRoute, useParams } from '@tanstack/react-router'
-import {
-  EmployeeDetail,
-  EmployeeDetailView,
-  EmployeeDetailViewTable,
-} from '../../types'
-import { Col, Input, Space, Table, Tag } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { createFileRoute, useParams, useNavigate } from '@tanstack/react-router'
+import {EmployeeDetailViewTable} from '../../types'
+import { Button, Col, Input, Space, Table, Tag } from 'antd'
+import {CloseOutlined } from '@ant-design/icons'
 import { AgGridReact } from 'ag-grid-react'
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-quartz.css'
@@ -28,17 +25,24 @@ const EmployeeDetailViewColDef = [
   },
 ]
 
-export const Route = createFileRoute('/employees/')({
-  component: EmployeesCafeComponent,
+export const Route = createFileRoute('/employees/$cafeId')({
+  component: EmployeesCafeComponent
 })
 
 export default function EmployeesCafeComponent() {
-
-  // const { isPending, error, data, isFetching } = cafe
+  // const { isPending, error, employees, isFetching } = cafe
   //   ? getEmployees(cafe)
   //   : getEmployees()
 
-  const { isPending, error, data, isFetching } = getEmployees()
+  const {cafeId} = Route.useParams()
+  const navigate = useNavigate({from: '/'})
+  const nullCafe = 'null';
+
+  const { isPending, error, data: employees, isFetching } = getEmployees(cafeId)
+
+  const toAllEmployeesPage = () =>{
+    return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
+  }
 
   if (isPending) {
     return <span>Loading Employees...</span>
@@ -48,25 +52,25 @@ export default function EmployeesCafeComponent() {
     return <span> Error: {error.message}</span>
   }
 
-  if (data) {
-
-    data.map((emp: EmployeeDetailViewTable) => {
+  if (employees) {
+    employees.map((emp: EmployeeDetailViewTable) => {
       emp.action = emp.id
     })
 
-    // data.array.forEach((emp:EmployeeDetailViewTable) => {
+    // employees.array.forEach((emp:EmployeeDetailViewTable) => {
     //   emp.action = emp.id
     // });
 
     return (
       <div>
         Employees
-        <Input placeholder="Cafe Name or Cafe Id" />
+        <br />
+        {(cafeId == null || cafeId === 'null') ? null : <Button icon={<CloseOutlined onClick={toAllEmployeesPage} />} type='primary' iconPosition='end'>{cafeId}</Button>}
         <br />
         {isFetching && <p>Refetching</p>}
         {
           <div className="ag-theme-quartz" style={{ height: 500 }}>
-            <AgGridReact rowData={data} columnDefs={EmployeeDetailViewColDef} />
+            <AgGridReact rowData={employees} columnDefs={EmployeeDetailViewColDef} />
           </div>
         }
       </div>
