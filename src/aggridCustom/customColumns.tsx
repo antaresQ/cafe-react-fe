@@ -42,7 +42,7 @@ export function cafesActionColumn(apiData:any) {
     }
     
     if (!isDeleteError) {
-      window.location.reload();
+      setTimeout(function() {window.location.reload()}, 750);
       //return navigate({to:'/cafes/$location', params:{location: 'null'}});
     }
   }
@@ -80,7 +80,7 @@ export function employeesActionColumn(apiData:any) {
     }
     
     if (!isDeleteError) {
-      window.location.reload();
+      setTimeout(function() {window.location.reload()}, 750);
       //return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
     }
   }

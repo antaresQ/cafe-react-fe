@@ -49,9 +49,10 @@ export function useCafeData() {
 
       let url = '/api/v1/cafe'
       if(cafe.name.length < 6) {url += `?cafeId=${cafe.id}`}
+
       let http_method = cafe.name.length < 6 ? 'DELETE' : cafe.id ? 'PUT' : 'POST';
 
-      const response = await fetch('/api/v1/cafe', 
+      const response = await fetch(url, 
       {
         method: http_method,
         headers: {
