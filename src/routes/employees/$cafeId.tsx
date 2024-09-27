@@ -38,6 +38,10 @@ export default function EmployeesCafeComponent() {
 
   const { isPending, error, data: employees, isFetching } = getEmployees(cafeId)
 
+  const toAddEmployeePage = () =>{
+    return navigate({to:'/employee/$employeeid', params:{employeeid: 'null'}});
+  }
+
   const toAllEmployeesPage = () =>{
     return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
   }
@@ -61,7 +65,9 @@ export default function EmployeesCafeComponent() {
 
     return (
       <div>
-        Employees
+        <div>
+        Employees <Button onClick={toAddEmployeePage} >Add</Button>
+        </div>
         <br />
         {(cafeId == null || cafeId === 'null') ? null : <Button icon={<CloseOutlined onClick={toAllEmployeesPage} />} type='primary' iconPosition='end'>{cafeId}</Button>}
         <br />

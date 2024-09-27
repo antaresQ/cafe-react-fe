@@ -35,7 +35,7 @@ export default function EmployeeEdit() {
   const [form] = Form.useForm()
   
   const cafes = getCafes()
-  const employeeQ = isEmployeeId ? getEmployee(employeeid) : getEmployee()
+  const employeeQ = getEmployee(employeeid)
   const { mutate:upsertEmployee, isError:isUpsertError, error:upsertError } = useEmployeeData();
   const navigate = useNavigate()
 
@@ -45,7 +45,7 @@ export default function EmployeeEdit() {
       gender: employeeQ.data.gender,
       email_Address: employeeQ.data.email_Address,
       phone_Number: employeeQ.data.phone_Number,
-      cafe_Id: cafes.data.filter((cafe:Cafe) => cafe.name == employeeQ.data.cafe)[0].id,
+      cafe_Id: cafes.data.filter((cafe:Cafe) => cafe.name == employeeQ.data?.cafe)[0]?.id,
       start_Date: dayjs(employeeQ.data.start_Date?.slice(0, 10)),
     })
   }
@@ -53,7 +53,6 @@ export default function EmployeeEdit() {
   const toEmployeesPage = () =>{
 
     return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
-
   }
 
   const onFinish = (values: EmployeeCreateUpdate) => {
@@ -82,7 +81,7 @@ export default function EmployeeEdit() {
       })
     
     let employeeData = form.getFieldsValue();
-    if(isEmployeeId && employeeQ.data.id.toLowerCase() == employeeid.toLowerCase()){
+    if (isEmployeeId && employeeQ.data.id.toLowerCase() == employeeid.toLowerCase()){
       employeeData.id = employeeid.toUpperCase();
     }
 
@@ -93,7 +92,7 @@ export default function EmployeeEdit() {
 
   }
 
-  if (employeeQ.data) {
+  if (employeeQ.data?.id.length > 0) {
     onFill()
   }
 

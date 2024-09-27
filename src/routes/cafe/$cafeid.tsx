@@ -81,7 +81,6 @@ export default function UpdateCafe() {
     }
     
     await upsertCafe(cafeData);
-
   }
 
   if (cafeQ.data) {

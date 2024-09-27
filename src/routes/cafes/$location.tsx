@@ -17,7 +17,7 @@ const CafeDetailColDef = [
   { field: 'name' },
   { field: 'description' },
   { field: 'location', headerName: 'Location', cellRenderer: cafeLocationColumn },
-  { field: 'name', headerName: 'Action', cellRenderer: cafesActionColumn, width: 250 },
+  { field: 'id', headerName: 'Action', cellRenderer: cafesActionColumn, width: 275 },
 ]
 
 export const Route = createFileRoute('/cafes/$location')({
@@ -30,6 +30,9 @@ export default function Cafes() {
   const { isPending, error, data, isFetching } = getCafes(location)
   const navigate = useNavigate({from: '/cafes/$location'})
 
+  const toAddCafePage = () =>{
+    return navigate({to:'/cafe/$cafeid', params:{cafeid: 'add'}});
+  }
   
   const toAllCafesPage = () =>{
     return navigate({to:'/cafes/$location', params:{location: 'null'}});
@@ -45,7 +48,7 @@ export default function Cafes() {
 
   return (
     <div>
-      Cafes
+      Cafes <Button onClick={toAddCafePage} >Add</Button>
       <br/>
       {(location == null || location === 'null') ? null : <Button icon={<CloseOutlined onClick={toAllCafesPage} />} type='primary' iconPosition='end'>{location}</Button>}
       <br />

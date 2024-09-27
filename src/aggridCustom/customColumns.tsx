@@ -1,15 +1,15 @@
 import React from 'react';
 import {useNavigate} from '@tanstack/react-router'
-import {Button} from 'antd'
+import {Button, Space} from 'antd'
 
 export const cafeLocationColumn = (apiData:any) => {
   const navigate = useNavigate({from: '/employees/$cafeId'})
 
   let location = apiData.value;
   return (
-    <div>
+    <Space>
       <Button onClick={() => navigate({to:`/cafes/${location}`})}>{location}</Button> 
-    </div>
+    </Space>
   )
 }
 
@@ -17,12 +17,13 @@ export const cafesActionColumn = (apiData:any) => {
   const navigate = useNavigate({from: '/cafes/$location'})
 
   let cafeId = apiData.value;
+  let cafeName = apiData.data.name;
   return (
-    <div>
-      <Button onClick={() => navigate({to:`/employees/${cafeId}`})}> Employees  </Button>
+    <Space>
+      <Button onClick={() => navigate({to:`/employees/${cafeName}`})}> Employees  </Button>
       <Button type='primary' onClick={() => navigate({to:`/cafe/${cafeId}`})}>Edit</Button>
       <Button type='primary' data-action="delete" danger>Delete</Button>
-    </div>
+    </Space>
   )
 }
 
@@ -31,10 +32,10 @@ export const employeesActionColumn = (apiData:any) => {
 
   let employeeId = apiData.value;
   return (
-    <div>
+    <Space>
       <Button type='primary' onClick={() => navigate({to:`/employee/${employeeId}`})}>Edit</Button>
       <Button type='primary' data-action="delete" danger>Delete</Button>
-    </div>
+    </Space>
   )
 }
 

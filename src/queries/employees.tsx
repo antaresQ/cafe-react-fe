@@ -25,7 +25,7 @@ export function getEmployees(cafe?:string) {
   })
 }
 
-export function getEmployee(id?:string) {
+export function getEmployee(id:string) {
   return useQuery({
     queryKey: ['GET_EMPLOYEE'],
     queryFn: async () => {
