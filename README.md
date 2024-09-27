@@ -9,7 +9,8 @@
 	2. Setup
 		2.1 Use VSCode
 		2.2 Install node:18.20.4 and npm
-  		2.3 Enter project folder npm run dev
+  		2.3 Enter project folder Run: npm install
+  		2.3 npm run dev
     
  	3. Use 
   		3.1 Go to http://localhost:3001/employees/null
