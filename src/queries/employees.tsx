@@ -27,7 +27,7 @@ export function getEmployees(cafe?:string) {
 
 export function getEmployee(id:string) {
   return useQuery({
-    queryKey: ['GET_EMPLOYEE'],
+    queryKey: ['GET_EMPLOYEE', id],
     queryFn: async () => {
       const response =  await fetch(`/api/v1/employees?employeeId=${id}`,
       {

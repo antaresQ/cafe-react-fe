@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
-import { Button, DatePicker, Form, Input, Select, Space } from 'antd'
+import { Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd'
 import { useEmployeeData, getEmployee } from '../../queries/employees'
 import { getCafes } from '../../queries/cafes'
 import { Cafe, Employee, EmployeeCreateUpdate, EmployeeDetail } from '../../types'
@@ -104,7 +104,7 @@ export default function EmployeeEdit() {
         {...layout}
         form={form}
         name="control-hooks"
-        onFinish={onFinish}
+        //onFinish={onFinish}
         style={{ maxWidth: 600 }}
       >
         <Form.Item
@@ -115,14 +115,14 @@ export default function EmployeeEdit() {
           <Input />
         </Form.Item>
         <Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
-          <Select
-            placeholder="Select a option and change input text above"
+          <Radio.Group
+            //placeholder="Select a option and change input text above"
             //onChange={onGenderChange}
             //allowClear
           >
-            <Option value="male">Male</Option>
-            <Option value="female">Female</Option>
-          </Select>
+            <Radio.Button value="male">Male</Radio.Button>
+            <Radio.Button value="female">Female</Radio.Button>
+          </Radio.Group>
         </Form.Item>
         <Form.Item
           name="email_Address"
@@ -134,9 +134,9 @@ export default function EmployeeEdit() {
         <Form.Item
           name="phone_Number"
           label="Phone Number"
-          rules={[{ required: true }, { len: 8 }]}
+          rules={[{ required: true }, { min: 8, max: 8 }]}
         >
-          <Input />
+          <Input type='text'/>
         </Form.Item>
         <Form.Item name="cafe_Id" label="Cafe" rules={[{ required: true }]}>
           <Select
