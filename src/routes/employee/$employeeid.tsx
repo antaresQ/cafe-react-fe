@@ -120,8 +120,8 @@ export default function EmployeeEdit() {
             //onChange={onGenderChange}
             //allowClear
           >
-            <Radio.Button value="male">Male</Radio.Button>
-            <Radio.Button value="female">Female</Radio.Button>
+            <Radio.Button value="Male">Male</Radio.Button>
+            <Radio.Button value="Female">Female</Radio.Button>
           </Radio.Group>
         </Form.Item>
         <Form.Item
