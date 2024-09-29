@@ -52,7 +52,7 @@ export function useEmployeeData(){
       let url = '/api/v1/employee'
       if (employee.name.length < 6 ) {url += `?employeId=${employee.id}`}
 
-      let http_method = (!(employee.id) || employee.id?.length == 0) ? 'POST' : employee.name.length < 6 ? 'PUT' : 'DELETE'
+      let http_method = (!(employee.id) || employee.id?.length == 0) ? 'POST' : employee.name.length < 6 ? 'DELETE' : 'PUT'
 
       const response = await fetch(url, 
       {
