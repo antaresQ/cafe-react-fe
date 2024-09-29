@@ -13,9 +13,9 @@ import toast from 'react-hot-toast'
 import {EmployeeCreateUpdate} from '../../types/index'
 
 const EmployeeDetailViewColDef = [
-  { field: 'id', width: 125},
+  { field: 'id' },
   { field: 'name' },
-  { field: 'gender', width: 100 },
+  { field: 'gender' },
   { field: 'email_Address', headerName: 'Email Address' },
   { field: 'phone_Number', headerName: 'Phone Number' },
   { field: 'cafe' },
@@ -32,11 +32,6 @@ const EmployeeDetailViewColDef = [
 export const Route = createFileRoute('/employees/$cafeId')({
   component: EmployeesCafeComponent
 })
-
-export function toAllEmployeesPage() {
-  const navigate = useNavigate({from: '/'})
-  return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
-}
 
 // export async function onDeleteEmployee(employeeId:string){
 
@@ -70,6 +65,10 @@ export default function EmployeesCafeComponent() {
 
   const toAddEmployeePage = () =>{
     return navigate({to:'/employee/$employeeid', params:{employeeid: 'null'}});
+  }
+
+  const toAllEmployeesPage = () => {
+    return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
   }
 
   if (isPending) {
