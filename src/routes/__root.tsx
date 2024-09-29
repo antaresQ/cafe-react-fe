@@ -13,13 +13,13 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   
-  const navigate = useNavigate({from: '/'})
+  const headerNavigate = useNavigate({from: '/'})
 
   
 
 const items = [
-  {key: 'employees', label: 'Employees', onClick: () => {navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}})}},
-  {key: 'cafes', label: 'Cafes',  onClick: () => {navigate({to:'/cafes/$location', params:{location: 'null'}})}},
+  {key: 'employees', label: 'Employees', onClick: () => {headerNavigate({to:'/employees/$cafeId', params:{cafeId: 'null'}})}},
+  {key: 'cafes', label: 'Cafes',  onClick: () => {headerNavigate({to:'/cafes/$location', params:{location: 'null'}})}},
 ]
 
 
