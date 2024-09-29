@@ -104,7 +104,7 @@ export default function EmployeeEdit() {
         {...layout}
         form={form}
         name="control-hooks"
-        //onFinish={onFinish}
+        onFinish={onFinish}
         style={{ maxWidth: 600 }}
       >
         <Form.Item
