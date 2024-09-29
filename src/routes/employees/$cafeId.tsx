@@ -33,11 +33,6 @@ export const Route = createFileRoute('/employees/$cafeId')({
   component: EmployeesCafeComponent
 })
 
-export function toAllEmployeesPage() {
-  const navigate = useNavigate({from: '/'})
-  return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
-}
-
 // export async function onDeleteEmployee(employeeId:string){
 
 //   const {mutate:deleteEmployee, isError:isDeleteError, error:deleteError }  = useEmployeeData()
@@ -70,6 +65,10 @@ export default function EmployeesCafeComponent() {
 
   const toAddEmployeePage = () =>{
     return navigate({to:'/employee/$employeeid', params:{employeeid: 'null'}});
+  }
+
+  const toAllEmployeesPage = () => {
+    return navigate({to:'/employees/$cafeId', params:{cafeId: 'null'}});
   }
 
   if (isPending) {
