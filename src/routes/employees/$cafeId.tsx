@@ -13,9 +13,9 @@ import toast from 'react-hot-toast'
 import {EmployeeCreateUpdate} from '../../types/index'
 
 const EmployeeDetailViewColDef = [
-  { field: 'id', width: 125},
+  { field: 'id' },
   { field: 'name' },
-  { field: 'gender', width: 100 },
+  { field: 'gender' },
   { field: 'email_Address', headerName: 'Email Address' },
   { field: 'phone_Number', headerName: 'Phone Number' },
   { field: 'cafe' },
