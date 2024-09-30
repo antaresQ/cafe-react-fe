@@ -1,9 +1,10 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useBlocker } from '@tanstack/react-router'
 import { Button, DatePicker, Form, Input, Select, Space, Upload } from 'antd'
 import { getCafe, useCafeData } from '../../queries/cafes'
 import toast, { Toaster } from 'react-hot-toast'
 import { Cafe } from '../../types'
 import * as uuid from 'uuid'
+import { useState } from 'react'
 
 const { Option } = Select
 const layout = {
@@ -31,11 +32,17 @@ export default function UpdateCafe() {
   const { cafeid } = Route.useParams()
   const [form] = Form.useForm()
   const navigate = useNavigate();
+  const [isFormChanged, setIsFormChanged] = useState(false)
   const {mutate:upsertCafe, isError:isUpsertError, error:upsertError } = useCafeData();
   
   var isValidCafeUUID = uuid.validate(cafeid)
 
   const cafeQ = getCafe(cafeid);
+
+  useBlocker({
+    blockerFn: () => window.confirm('Changes made will not be saved. Are you sure you want to leave?'),
+    condition: isFormChanged,
+  })
 
   if(cafeQ.isError) {
     return <div>{`Error: ${cafeQ.error}`}</div>
@@ -54,6 +61,7 @@ export default function UpdateCafe() {
         logo: cafeQ.data.logo,
         location: cafeQ.data.location
       })
+      setIsFormChanged(false)
     }
 
     const toCafesPage = () =>{
@@ -93,10 +101,6 @@ export default function UpdateCafe() {
       await upsertCafe(cafeData);
     }
 
-    if (cafeQ.data) {
-      onFill()
-    }
-
     return (
       <div>
         <div>{isValidCafeUUID ? 'Edit' : 'Add'} Cafe</div>
@@ -107,11 +111,13 @@ export default function UpdateCafe() {
           name="control-hooks"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
+          onFieldsChange={() => {setIsFormChanged(true)}}
         >
           <Form.Item
             name="name"
             label="Name"
             rules={[{ required: true }, { min: 6 }, { max: 10 }]}
+            initialValue={cafeQ?.data?.name}
           >
             <Input />
           </Form.Item>
@@ -120,6 +126,7 @@ export default function UpdateCafe() {
             name="description"
             label="Description"
             rules={[{ required: true }, { max: 256 }]}
+            initialValue={cafeQ?.data?.description}
           >
             <Input />
           </Form.Item>
@@ -127,6 +134,7 @@ export default function UpdateCafe() {
             name="logo"
             label="Logo"
             rules={[{ required: false }]}
+            initialValue={cafeQ?.data?.logo}
           >
             <Input />
           </Form.Item>
@@ -134,6 +142,7 @@ export default function UpdateCafe() {
             name="location"
             label="Location"
             rules={[{ required: true }]}
+            initialValue={cafeQ?.data?.location}
           >
             <Input />
           </Form.Item>

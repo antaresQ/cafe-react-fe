@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useBlocker, useNavigate } from '@tanstack/react-router'
 import { Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd'
 import { useEmployeeData, getEmployee } from '../../queries/employees'
 import { getCafes } from '../../queries/cafes'
@@ -7,6 +7,7 @@ import parse from 'html-react-parser'
 import dayjs from 'dayjs'
 import toast, {Toaster, ToastOptions} from 'react-hot-toast'
 import { duration } from '@mui/material'
+import { useState } from 'react'
 
 const { Option } = Select
 const layout = {
@@ -33,13 +34,17 @@ export default function EmployeeEdit() {
   const { employeeid } = Route.useParams()
   const isEmployeeId = employeeid.substring(0, 2).toLowerCase() === 'ui'
   const [form] = Form.useForm()
-  const allValues = Form.useWatch([], form);
+  const [isFormChanged, setIsFormChanged] = useState(false)
   
   const cafes = getCafes()
   const employeeQ = getEmployee(employeeid)
   const { mutate:upsertEmployee, isError:isUpsertError, error:upsertError } = useEmployeeData();
   const navigate = useNavigate()
 
+  useBlocker({
+    blockerFn: () => window.confirm('Changes made will not be saved. Are you sure you want to leave?'),
+    condition: isFormChanged,
+  })
   
 
   if (employeeQ.isError || cafes.isError ) {
@@ -66,6 +71,7 @@ export default function EmployeeEdit() {
         cafe_Id: cafes.data.filter((cafe:Cafe) => cafe.name == employeeQ.data?.cafe)[0]?.id,
         start_Date: employeeQ.data ? dayjs(employeeQ.data.start_Date?.slice(0, 10)) : dayjs(new Date().toISOString().slice(0, 10)),
       })
+      setIsFormChanged(false)
     }
   
     const toEmployeesPage = () =>{
@@ -120,6 +126,7 @@ export default function EmployeeEdit() {
           name="control-hooks"
           onFinish={onFinish}
           style={{ maxWidth: 600 }}
+          onFieldsChange={() => {setIsFormChanged(true)}}
         >
           <Form.Item
             name="name"
