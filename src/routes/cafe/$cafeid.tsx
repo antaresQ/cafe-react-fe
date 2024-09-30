@@ -37,6 +37,10 @@ export default function UpdateCafe() {
 
   const cafeQ = getCafe(cafeid);
 
+  if(cafeQ.isError) {
+    return <div>{`Error: ${cafeQ.error}`}</div>
+  }
+
   if(cafeQ.isLoading){
     return <div>Loading Cafe details...</div>
   }

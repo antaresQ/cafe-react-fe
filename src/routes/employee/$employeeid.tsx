@@ -42,9 +42,14 @@ export default function EmployeeEdit() {
 
   
 
-  // if (employeeQ.data?.id.length > 0) {
-  //   onFill()
-  // }
+  if (employeeQ.isError || cafes.isError ) {
+    return (
+      <div>
+        {employeeQ.isError ? <div>Error: {employeeQ.error.message}</div> : null}
+        {cafes.isError ? <div>Error: {cafes.error.message}</div> : null}
+      </div>
+    )
+  }
 
   if(employeeQ.isLoading || cafes.isLoading) {
     return <div>Loading.....</div>
