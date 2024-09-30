@@ -77,7 +77,7 @@ function RootComponent() {
       </Layout>
       <hr />
       <Outlet />
-      <TanStackRouterDevtools position="bottom-right" />
+      <TanStackRouterDevtools position="bottom-left" />
       <ReactQueryDevtools />
     </>
   )
