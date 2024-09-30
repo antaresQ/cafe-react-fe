@@ -13,7 +13,7 @@
   		2.4 To deploy: docker run --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
     
  	3. Use 
-  		3.1 Go to http://localhost:8050/employees/null
+  		3.1 Go to http://localhost:8050/
 		
 
 	antaresQ
