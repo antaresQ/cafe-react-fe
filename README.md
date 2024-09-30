@@ -8,8 +8,9 @@
 
 	2. Setup
 		2.1 Install node:18.20.4 and npm
-  		2.2 In project folder: docker build -f ./Dockerfile -t cafe-react-fe
-  		2.3 To deploy: docker run --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
+  		2.2 Ensure 'proxy' URL in vite.config.ts points to api url of deployed cafe-NET-API 
+  		2.3 In project folder: docker build -f ./Dockerfile -t cafe-react-fe
+  		2.4 To deploy: docker run --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
     
  	3. Use 
   		3.1 Go to http://localhost:8050/employees/null
