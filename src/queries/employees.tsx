@@ -2,11 +2,11 @@ import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 import { EmployeeCreateUpdate } from "../types";
 import { useState } from "react";
 
-const queryClient = new QueryClient({defaultOptions: {queries: {staleTime: 0}}});
+//for production urls to be prefix with import.meta.env.VITE_API_BASE_URL
 
 export function getEmployees(cafe?:string) {
 
-  let api_url = (cafe == undefined || cafe == null || cafe === 'null') ? '/api/v1/employees' : `/api/v1/employees?cafe=${cafe}`
+  let api_url = (cafe == undefined || cafe == null || cafe === 'null') ? `/api/v1/employees` : `/api/v1/employees?cafe=${cafe}`
 
   return useQuery({
     queryKey: ['GET_EMPLOYEES', cafe],
@@ -49,7 +49,7 @@ export function useEmployeeData(){
     mutationFn: async (employee:EmployeeCreateUpdate) => {
       //event.preventDefault();
 
-      let url = '/api/v1/employee'
+      let url = `/api/v1/employee`
       if (employee.name.length < 6 ) {url += `?employeeId=${employee.id}`}
 
       let http_method = (!(employee.id) || employee.id?.length == 0) ? 'POST' : employee.name.length < 6 ? 'DELETE' : 'PUT'
