@@ -6,12 +6,12 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 export default defineConfig({
   plugins: [TanStackRouterVite({}), react()],
   server: {
-    // proxy: {
-    //   '/api': 'http://localhost:8060'
-    // }
     proxy: {
-      '/api': 'http://192.168.11.191:8060'
+      '/api': 'http://localhost:8060'
     },
+    // proxy: {
+    //   '/api': 'http://192.168.11.191:8060'
+    // },
     host: true,
     port: 3000
   }
