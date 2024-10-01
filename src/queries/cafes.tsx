@@ -1,9 +1,12 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Cafe } from "../types";
+import default_headers from "./default_headers";
 
 export function getCafes(location?: string) {
     
-  let api_url = (location == undefined || location == null || location === 'null')  ? '/api/v1/cafes' : `/api/v1/cafes?location=${location}`;
+  let api_url = (location == undefined || location == null || location === 'null')  ? 
+    `${import.meta.env.VITE_API_BASE_URL}/api/v1/cafes` : 
+    `${import.meta.env.VITE_API_BASE_URL}/api/v1/cafes?location=${location}`;
 
   return useQuery({
     queryKey: ['GET_Cafes', location],
@@ -11,9 +14,7 @@ export function getCafes(location?: string) {
       const response =  await fetch(api_url,
       {
         method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json'
-        }
+        headers:  default_headers()
       })
 
       return await response.json();
@@ -23,7 +24,7 @@ export function getCafes(location?: string) {
 
 export function getCafe(cafe_id: string) {
     
-  let api_url = `/api/v1/cafe?cafe_id=${cafe_id}`;
+  let api_url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/cafe?cafe_id=${cafe_id}`;
 
   return useQuery({
     queryKey: ['GET_CAFE', cafe_id],
@@ -31,9 +32,7 @@ export function getCafe(cafe_id: string) {
       const response =  await fetch(api_url,
       {
         method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json'
-        }
+        headers: default_headers()
       })
 
       return await response.json();
@@ -47,7 +46,7 @@ export function useCafeData() {
     mutationFn: async (cafe:Cafe) => {
       //event.preventDefault();
 
-      let url = '/api/v1/cafe'
+      let url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/cafe`
       if(cafe.name.length < 6) {url += `?cafeId=${cafe.id}`}
 
       let http_method = cafe.name.length < 6 ? 'DELETE' : cafe.id ? 'PUT' : 'POST';
@@ -55,9 +54,7 @@ export function useCafeData() {
       const response = await fetch(url, 
       {
         method: http_method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: default_headers(),
         body: JSON.stringify(cafe)
       })
       
