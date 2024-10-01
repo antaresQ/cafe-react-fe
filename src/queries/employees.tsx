@@ -62,7 +62,7 @@ export function useEmployeeData(){
         body: http_method != 'DELETE' ? JSON.stringify(employee) : null
       })
       
-      return await response.json()    
+      return await response.text()   
     },
     onSuccess(data, variables, context) {
       return data

@@ -108,14 +108,14 @@ export default function EmployeeEdit() {
       try 
       {
         await mutateEmployee.mutateAsync(employeeData)
-          .then(async(data:boolean)=>{
+          .then(async(data)=>{
 
-            if(data === true)
+            if(data)
             {
               SetFormEditedStatus(false)
               toast.success(isEmployeeId ? `Employee Updated: ${employeeQ.data.name}` : 'Employee Added')
               
-              queryClient.invalidateQueries({queryKey:['GET_EMPLOYEE',employeeQ.data.id]})
+              queryClient.invalidateQueries({queryKey:['GET_CAFE',data]})
             }
             else {
               return toast.error(`Error Updating Employee: ${employeeQ.data.name}`)
