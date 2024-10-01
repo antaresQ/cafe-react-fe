@@ -7,16 +7,19 @@
    		1.4 Works together with https://github.com/antaresQ/Cafe-NET-API
 
 	2. Setup
-		2.1 Install node:18.20.4 and npm
-  		2.2 Ensure 'proxy' URL in vite.config.ts points to api url of deployed backend project 'Cafe-NET-API' 
-    		2.3 npm run dev
+		2.1 Local Debug
+			2.1.1 Install node:18.20.4 and npm
+  			2.1.2 Ensure 'proxy' URL in vite.config.ts points to api url of deployed backend project 'Cafe-NET-API' 
+    		2.1.3 npm run dev
       		
-	Docker (if base url is configured without cors); currently not working
-  		2.3 In project folder: docker build -f ./Dockerfile -t cafe-react-fe
-  		2.4 To deploy: docker run --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
+		2.2 Docker Container
+  			2.2.1 SET "VITE_API_BASE_URL" in .env file is set to ip address where cafenetapi is deployed
+			2.2.2 In project folder: docker build -f ./Dockerfile -t cafe-react-fe
+  			2.2.3 To deploy: docker run -d --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
     
  	3. Use 
-  		3.1 Go to http://localhost:3001/
+  		3.1 Local Debug: Go to --> http://localhost:3001/
+		3.1 Docker Deployment: Go to --> http://<ip address of server>:8050/
 		
 
 	antaresQ
