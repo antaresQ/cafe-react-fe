@@ -39,7 +39,7 @@ export default function UpdateCafe() {
   const mutateCafe = useCafeData();
   
   var isValidCafeUUID = uuid.validate(cafeid)
-
+  
   const cafeQ = getCafe(cafeid);
 
   useBlocker({

@@ -1,6 +1,7 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { Cafe } from "../types";
 import default_headers from "./default_headers";
+import * as uuid from 'uuid'
 
 export function getCafes(location?: string) {
     
@@ -24,7 +25,9 @@ export function getCafes(location?: string) {
 }
 
 export function getCafe(cafe_id: string) {
-    
+  
+  cafe_id = uuid.validate(cafe_id) ? cafe_id : uuid.NIL;
+
   let api_url = `${import.meta.env.VITE_API_BASE_URL}/api/v1/cafe?cafe_id=${cafe_id}`;
 
   return useQuery({
