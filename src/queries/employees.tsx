@@ -29,7 +29,7 @@ export function getEmployee(id:string) {
   return useQuery({
     queryKey: ['GET_EMPLOYEE', id],
     queryFn: async () => {
-      const response =  await fetch(`/api/v1/employees?employeeId=${id}`,
+      const response =  await fetch(`/api/v1/employee?employeeId=${id}`,
       {
         method: 'GET',
         headers: { 
@@ -63,14 +63,13 @@ export function useEmployeeData(){
         body: http_method != 'DELETE' ? JSON.stringify(employee) : null
       })
       
-      return await response.json()
+      return await response.json()    
     },
     onSuccess(data, variables, context) {
-        
+      return data
     },
     onError(error, variables, context) {
-        console.log('Fetch PUT failed:')
-        console.log(error);
+      return error
     },
   })
   
