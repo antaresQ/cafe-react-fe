@@ -1,12 +1,11 @@
 import { createFileRoute, useNavigate, useBlocker } from '@tanstack/react-router'
-import { Button, DatePicker, Form, Input, Select, Space, Upload } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
 import { getCafe, useCafeData } from '../../queries/cafes'
-import toast, { Toaster } from 'react-hot-toast'
-import { Cafe } from '../../types'
+import toast from 'react-hot-toast'
 import * as uuid from 'uuid'
 import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
-const { Option } = Select
 const layout = {
   labelCol: {
     span: 8,
@@ -29,11 +28,15 @@ export const Route = createFileRoute('/cafe/$cafeid')({
 
 export default function UpdateCafe() {
   
+  const queryClient = useQueryClient()
   const { cafeid } = Route.useParams()
   const [form] = Form.useForm()
   const navigate = useNavigate();
-  const [isFormChanged, setIsFormChanged] = useState(false)
-  const {mutate:upsertCafe, isError:isUpsertError, error:upsertError } = useCafeData();
+
+  const [isFormChanged, setIsFormChanged] = useState<boolean>(false);
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState<boolean>(true);
+
+  const mutateCafe = useCafeData();
   
   var isValidCafeUUID = uuid.validate(cafeid)
 
@@ -43,6 +46,11 @@ export default function UpdateCafe() {
     blockerFn: () => window.confirm('Changes made will not be saved. Are you sure you want to leave?'),
     condition: isFormChanged,
   })
+
+  function SetFormEditedStatus(isEdited:boolean) {
+    setIsFormChanged(val => val = isEdited)
+    setSubmitButtonDisabled(val => val = !isEdited)
+  }
 
   if(cafeQ.isError) {
     return <div>{`Error: ${cafeQ.error}`}</div>
@@ -61,23 +69,14 @@ export default function UpdateCafe() {
         logo: cafeQ.data.logo,
         location: cafeQ.data.location
       })
-      setIsFormChanged(false)
+      SetFormEditedStatus(false)
     }
 
     const toCafesPage = () =>{
       return navigate({to:'/cafes/$location', params:{location: 'null'}});
     }
 
-    const onFinish = (values: Cafe) => {
-      console.log(values)
-
-      if(isUpsertError){
-        return toast.error(upsertError.message)
-      }
-      else {
-        toast.success(isValidCafeUUID ? `Cafe Updated: ${cafeQ.data.name}` : 'Cafe Added')
-      }
-
+    const onFinish = () => {
       return toCafesPage();
     }
 
@@ -85,20 +84,45 @@ export default function UpdateCafe() {
       form.resetFields()
     }
 
+    async function updateCafeDetails() {
+
+      let cafeData = form.getFieldsValue();
+      if (isValidCafeUUID && cafeQ?.data?.id.toLowerCase() == cafeid.toLowerCase()){
+        cafeData.id = cafeid.toUpperCase();
+      }
+      
+      try 
+      {
+        await mutateCafe.mutateAsync(cafeData)
+          .then(async(data:boolean)=>{
+
+            if(data === true)
+            {
+              SetFormEditedStatus(false)
+              toast.success(isValidCafeUUID && cafeQ?.data?.id.toLowerCase() == cafeid.toLowerCase() ? `Cafe Updated: ${cafeQ.data.name}` : 'Cafe Added')
+              
+              queryClient.invalidateQueries({queryKey:['GET_EMPLOYEE',cafeQ.data.id]})
+            }
+            else {
+              return toast.error(`Error Updating Cafe: ${cafeQ.data.name}`)
+            }
+          })
+      } 
+      catch {
+        toast.error(`Error Updating Employee: ${cafeQ.data.name}`)
+      }
+    }
+
     const onSubmit = async () => {
 
       await form.validateFields()
+        .then(async () => {
+          return updateCafeDetails()
+        })
         .catch((err) => {
           let errors = form.getFieldsError().filter(e => e.errors.length > 0)
           return console.log(errors);
         })
-      
-      let cafeData = form.getFieldsValue();
-      if(isValidCafeUUID && cafeQ.data.id.toLowerCase() == cafeid.toLowerCase()){
-        cafeData.id = cafeid.toUpperCase();
-      }
-      
-      await upsertCafe(cafeData);
     }
 
     return (
@@ -109,9 +133,9 @@ export default function UpdateCafe() {
           {...layout}
           form={form}
           name="control-hooks"
-          onFinish={onFinish}
+          //onFinish={onFinish}
           style={{ maxWidth: 600 }}
-          onFieldsChange={() => {setIsFormChanged(true)}}
+          onFieldsChange={() => {SetFormEditedStatus(true)}}
         >
           <Form.Item
             name="name"
@@ -150,6 +174,7 @@ export default function UpdateCafe() {
             <Space>
               <Button type="primary" htmlType="submit"
                 onClick={onSubmit}
+                disabled={submitButtonDisabled}
               >
                 Submit
               </Button>

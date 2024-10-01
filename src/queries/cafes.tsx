@@ -26,7 +26,7 @@ export function getCafe(cafe_id: string) {
   let api_url = `/api/v1/cafe?cafe_id=${cafe_id}`;
 
   return useQuery({
-    queryKey: ['GET_Cafe'],
+    queryKey: ['GET_CAFE', cafe_id],
     queryFn: async () => {
       const response =  await fetch(api_url,
       {
@@ -64,11 +64,11 @@ export function useCafeData() {
       return await response.json()
     },
     onSuccess(data, variables, context) {
-        
+        return data
     },
     onError(error, variables, context) {
-        console.log('Fetch PUT failed:')
         console.log(error);
+        return error
     },
   })
 }

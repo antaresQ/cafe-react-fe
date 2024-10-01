@@ -1,5 +1,5 @@
 import { createFileRoute, useBlocker, useNavigate } from '@tanstack/react-router'
-import { Button, DatePicker, Form, Input, message, Radio, Select, Space } from 'antd'
+import { Button, DatePicker, Form, Input, Radio, Select, Space } from 'antd'
 import { useEmployeeData, getEmployee } from '../../queries/employees'
 import { getCafes } from '../../queries/cafes'
 import { Cafe } from '../../types'
@@ -112,18 +112,14 @@ export default function EmployeeEdit() {
 
             if(data === true)
             {
-              console.log('isSuccess hit')
-  
               SetFormEditedStatus(false)
               toast.success(isEmployeeId ? `Employee Updated: ${employeeQ.data.name}` : 'Employee Added')
               
               queryClient.invalidateQueries({queryKey:['GET_EMPLOYEE',employeeQ.data.id]})
             }
             else {
-              console.log('isError hit')
               return toast.error(`Error Updating Employee: ${employeeQ.data.name}`)
             }
-
           })
       } 
       catch {
@@ -191,7 +187,12 @@ export default function EmployeeEdit() {
           >
             <Input type='text'/>
           </Form.Item>
-          <Form.Item name="cafe_Id" label="Cafe" rules={[{ required: true }]} initialValue={employeeQ?.data?.cafe_Id}>
+          <Form.Item 
+            name="cafe_Id" 
+            label="Cafe" 
+            rules={[{ required: true }]} 
+            initialValue={employeeQ?.data?.cafe_Id != '00000000-0000-0000-0000-000000000000' ? employeeQ?.data?.cafe_Id : null}
+          >
             <Select
               placeholder="Select a option and change input text above"
               //onChange={onCafeChange}
