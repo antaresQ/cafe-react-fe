@@ -14,6 +14,7 @@ export function getCafes(location?: string) {
       const response =  await fetch(api_url,
       {
         method: 'GET',
+        mode: 'cors',
         headers:  default_headers()
       })
 
@@ -32,6 +33,7 @@ export function getCafe(cafe_id: string) {
       const response =  await fetch(api_url,
       {
         method: 'GET',
+        mode: 'cors',
         headers: default_headers()
       })
 
@@ -54,6 +56,7 @@ export function useCafeData() {
       const response = await fetch(url, 
       {
         method: http_method,
+        mode: 'cors',
         headers: default_headers(),
         body: JSON.stringify(cafe)
       })

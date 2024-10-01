@@ -18,6 +18,7 @@ export function getEmployees(cafe?:string) {
       const response =  await fetch(api_url,
       {
         method: 'GET',
+        mode: 'cors',
         headers: default_headers()
       })
 
@@ -33,6 +34,7 @@ export function getEmployee(id:string) {
       const response =  await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/employee?employeeId=${id}`,
       {
         method: 'GET',
+        mode: 'cors',
         headers: default_headers()
       })
 
@@ -55,6 +57,7 @@ export function useEmployeeData(){
       const response = await fetch(url, 
       {
         method: http_method,
+        mode: 'cors',
         headers:  default_headers(),
         body: http_method != 'DELETE' ? JSON.stringify(employee) : null
       })
