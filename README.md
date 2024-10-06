@@ -18,7 +18,7 @@
     		2.2.3 npm run dev
       		
 		2.3 Docker Container
-  			2.3.1 SET "VITE_API_BASE_URL" in .env file is set to ip address where backend project 'Cafe-NET-API' is deployed
+  			2.3.1 SET "VITE_API_BASE_URL" in .env file is set to url and port of where backend project 'Cafe-NET-API' is deployed
 			2.3.2 In project folder: docker build -f ./Dockerfile -t cafe-react-fe
   			2.3.3 To deploy: docker run -d --rm -it -p 8050:3000 --name cafe-react-fe cafe-react-fe
     
