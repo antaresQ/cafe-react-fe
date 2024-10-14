@@ -85,6 +85,8 @@ export default function UpdateCafe() {
     }
 
     async function updateCafeDetails() {
+      
+      SetFormEditedStatus(false)
 
       let cafeData = form.getFieldsValue();
       if (isValidCafeUUID && cafeQ?.data?.id.toLowerCase() == cafeid.toLowerCase()){
@@ -98,10 +100,10 @@ export default function UpdateCafe() {
 
             if(data === true)
             {
-              SetFormEditedStatus(false)
               toast.success(isValidCafeUUID && cafeQ?.data?.id.toLowerCase() == cafeid.toLowerCase() ? `Cafe Updated: ${cafeQ.data.name}` : 'Cafe Added')
               
               queryClient.invalidateQueries({queryKey:['GET_EMPLOYEE',cafeQ.data.id]})
+              toCafesPage()
             }
             else {
               return toast.error(`Error Updating Cafe: ${cafeQ.data.name}`)

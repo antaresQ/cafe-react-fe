@@ -95,6 +95,8 @@ export default function EmployeeEdit() {
     }
 
     async function updateEmployeeDetails() {
+      
+      SetFormEditedStatus(false)
 
       let employeeData = form.getFieldsValue();
 
@@ -112,10 +114,10 @@ export default function EmployeeEdit() {
 
             if(data)
             {
-              SetFormEditedStatus(false)
               toast.success(isEmployeeId ? `Employee Updated: ${employeeQ.data.name}` : 'Employee Added')
               
               queryClient.invalidateQueries({queryKey:['GET_CAFE',data]})
+              toEmployeesPage()
             }
             else {
               return toast.error(`Error Updating Employee: ${employeeQ.data.name}`)
